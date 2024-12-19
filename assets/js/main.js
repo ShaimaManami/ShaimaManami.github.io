@@ -1,155 +1,74 @@
-
-
-(function($) {
-
-	var $window = $(window),
-		$body = $('body'),
-		$header = $('#header'),
-		$titleBar = null,
-		$nav = $('#nav'),
-		$wrapper = $('#wrapper');
-
-	// Breakpoints.
-		breakpoints({
-			xlarge:   [ '1281px',  '1680px' ],
-			large:    [ '1025px',  '1280px' ],
-			medium:   [ '737px',   '1024px' ],
-			small:    [ '481px',   '736px'  ],
-			xsmall:   [ null,      '480px'  ],
-		});
-
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
-
-	// Tweaks/fixes.
-
-		// Polyfill: Object fit.
-			if (!browser.canUse('object-fit')) {
-
-				$('.image[data-position]').each(function() {
-
-					var $this = $(this),
-						$img = $this.children('img');
-
-					// Apply img as background.
-						$this
-							.css('background-image', 'url("' + $img.attr('src') + '")')
-							.css('background-position', $this.data('position'))
-							.css('background-size', 'cover')
-							.css('background-repeat', 'no-repeat');
-
-					// Hide img.
-						$img
-							.css('opacity', '0');
-
-				});
-
-			}
-
-	// Header Panel.
-
-		// Nav.
-			var $nav_a = $nav.find('a');
-
-			$nav_a
-				.addClass('scrolly')
-				.on('click', function() {
-
-					var $this = $(this);
-
-					// External link? Bail.
-						if ($this.attr('href').charAt(0) != '#')
-							return;
-
-					// Deactivate all links.
-						$nav_a.removeClass('active');
-
-					// Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
-						$this
-							.addClass('active')
-							.addClass('active-locked');
-
-				})
-				.each(function() {
-
-					var	$this = $(this),
-						id = $this.attr('href'),
-						$section = $(id);
-
-					// No section for this link? Bail.
-						if ($section.length < 1)
-							return;
-
-					// Scrollex.
-						$section.scrollex({
-							mode: 'middle',
-							top: '5vh',
-							bottom: '5vh',
-							initialize: function() {
-
-								// Deactivate section.
-									$section.addClass('inactive');
-
-							},
-							enter: function() {
-
-								// Activate section.
-									$section.removeClass('inactive');
-
-								// No locked links? Deactivate all links and activate this section's one.
-									if ($nav_a.filter('.active-locked').length == 0) {
-
-										$nav_a.removeClass('active');
-										$this.addClass('active');
-
-									}
-
-								// Otherwise, if this section's link is the one that's locked, unlock it.
-									else if ($this.hasClass('active-locked'))
-										$this.removeClass('active-locked');
-
-							}
-						});
-
-				});
-
-		// Title Bar.
-			$titleBar = $(
-				'<div id="titleBar">' +
-					'<a href="#header" class="toggle"></a>' +
-					'<span class="title">' + $('#logo').html() + '</span>' +
-				'</div>'
-			)
-				.appendTo($body);
-
-		// Panel.
-			$header
-				.panel({
-					delay: 500,
-					hideOnClick: true,
-					hideOnSwipe: true,
-					resetScroll: true,
-					resetForms: true,
-					side: 'right',
-					target: $body,
-					visibleClass: 'header-visible'
-				});
-
-	// Scrolly.
-		$('.scrolly').scrolly({
-			speed: 1000,
-			offset: function() {
-
-				if (breakpoints.active('<=medium'))
-					return $titleBar.height();
-
-				return 0;
-
-			}
-		});
-
-})(jQuery);
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+    new SweetScroll({}),
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 100, density: { enable: !0, value_area: 800 } },
+          color: { value: "#eee" },
+          shape: {
+            type: "polygon",
+            stroke: { width: 0, color: "#eee" },
+            polygon: { nb_sides: 5 },
+            image: { src: "img/github.svg", width: 100, height: 100 },
+          },
+          opacity: {
+            value: 0.5,
+            random: !1,
+            anim: { enable: !1, speed: 1, opacity_min: 0.1, sync: !1 },
+          },
+          size: {
+            value: 3,
+            random: !0,
+            anim: {
+              enable: !1,
+              speed: 19.18081918081918,
+              size_min: 0.1,
+              sync: !1,
+            },
+          },
+          line_linked: {
+            enable: !0,
+            distance: 150,
+            color: "#ffffff",
+            opacity: 0.4,
+            width: 1,
+          },
+          move: {
+            enable: !0,
+            speed: 4,
+            direction: "none",
+            random: !0,
+            straight: !1,
+            out_mode: "out",
+            bounce: !1,
+            attract: { enable: !1, rotateX: 600, rotateY: 1200 },
+          },
+          nb: 80,
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: !1, mode: "grab" },
+            onclick: { enable: !0, mode: "push" },
+            resize: !0,
+          },
+          modes: {
+            grab: { distance: 400, line_linked: { opacity: 1 } },
+            bubble: {
+              distance: 400,
+              size: 40,
+              duration: 2,
+              opacity: 8,
+              speed: 3,
+            },
+            repulse: { distance: 200, duration: 0.4 },
+            push: { particles_nb: 4 },
+            remove: { particles_nb: 2 },
+          },
+        },
+        retina_detect: !0,
+      });
+  },
+  !1
+);
