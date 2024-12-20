@@ -4,7 +4,7 @@ document.addEventListener(
     new SweetScroll({}),
       particlesJS("particles-js", {
         particles: {
-          number: { value: 100, density: { enable: !0, value_area: 800 } },
+          number: { value: 70, density: { enable: !0, value_area: 800 } },
           color: { value: "#eee" },
           shape: {
             type: "polygon",
